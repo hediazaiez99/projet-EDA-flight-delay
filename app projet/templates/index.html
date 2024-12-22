@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommandation de Compagnie Aérienne</title>
+    <style>
+        /* Police et Réinitialisation */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #87CEEB, #f2f2f2);
+            color: #333;
+        }
+
+        /* En-tête */
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background: url('https://via.placeholder.com/1920x400?text=Ciel+Bleu') no-repeat center center / cover;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin: 10px 0 0;
+        }
+
+        /* Conteneur Principal */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+        }
+
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.1em;
+            text-align: center;
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        /* Pied de page */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #333;
+            color: white;
+            font-size: 0.9em;
+            position: relative;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>✈️ Aviation Recommender</h1>
+        <p>Obtenez des recommandations pour vos vols avec les meilleures compagnies aériennes.</p>
+    </header>
+    <main>
+        <section class="form-container">
+            <form id="recommendationForm">
+                <label for="origin">Aéroport d'origine :</label>
+                <input type="text" id="origin" name="origin" placeholder="Exemple : JFK" required>
+                <label for="destination">Aéroport de destination :</label>
+                <input type="text" id="destination" name="destination" placeholder="Exemple : SFO" required>
+                <button type="submit">Recommander</button>
+            </form>
+            <div id="result" class="result"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Aviation Recommender. Tous droits réservés.</p>
+    </footer>
+    <script>
+        document.getElementById('recommendationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const origin = document.getElementById('origin').value;
+            const destination = document.getElementById('destination').value;
+            const response = await fetch('/recommend', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `origin=${origin}&destination=${destination}`
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = result.recommendation || result.error;
+        });
+    </script>
+</body>
+</html>
